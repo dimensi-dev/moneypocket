@@ -12,12 +12,13 @@
 // ====================================================
 
 const firebaseConfig = {
-  apiKey: "GANTI_DENGAN_API_KEY_ANDA",
-  authDomain: "GANTI_DENGAN_AUTH_DOMAIN_ANDA",
-  projectId: "GANTI_DENGAN_PROJECT_ID_ANDA",
-  storageBucket: "GANTI_DENGAN_STORAGE_BUCKET_ANDA",
-  messagingSenderId: "GANTI_DENGAN_SENDER_ID_ANDA",
-  appId: "GANTI_DENGAN_APP_ID_ANDA"
+  apiKey: "AIzaSyDH4VKNTmKo39gRe6-MmE4MVWyiwjymHgE",
+  authDomain: "dimen-4c38b.firebaseapp.com",
+  projectId: "dimen-4c38b",
+  storageBucket: "dimen-4c38b.firebasestorage.app",
+  messagingSenderId: "971015738210",
+  appId: "1:971015738210:web:6b6a181b81edb3ce8d123b",
+  measurementId: "G-X60VY0EB3B"
 };
 
 // Inisialisasi Firebase (menggunakan Firebase v9 compat SDK
