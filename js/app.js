@@ -130,28 +130,67 @@ function toggleDarkMode(checked) {
 
 // ---------------- PWA INSTALL BANNER ----------------
 let deferredInstallPrompt = null;
+
+// Jangan tampilkan banner jika aplikasi sudah terpasang
+function isAppInstalled() {
+  return (
+    window.matchMedia("(display-mode: standalone)").matches ||
+    window.navigator.standalone === true
+  );
+}
+
 window.addEventListener("beforeinstallprompt", (e) => {
   e.preventDefault();
+
+  // Jika aplikasi sudah terpasang, jangan tampilkan banner
+  if (isAppInstalled()) return;
+
+  // Jika banner sudah pernah muncul, jangan tampilkan lagi
+  if (localStorage.getItem("dompetku_install_banner_shown") === "1") return;
+
   deferredInstallPrompt = e;
+
   const banner = document.getElementById("installBanner");
-  if (banner && !localStorage.getItem("dompetku_install_dismissed")) {
-    setTimeout(() => banner.classList.add("show"), 1200);
+
+  if (banner) {
+    setTimeout(() => {
+      banner.classList.add("show");
+
+      // Simpan bahwa banner sudah pernah muncul
+      localStorage.setItem("dompetku_install_banner_shown", "1");
+    }, 1200);
   }
 });
 
-function installApp() {
+// Tombol Pasang
+async function installApp() {
+  if (!deferredInstallPrompt) return;
+
   const banner = document.getElementById("installBanner");
-  if (deferredInstallPrompt) {
-    deferredInstallPrompt.prompt();
-    deferredInstallPrompt.userChoice.finally(() => {
-      if (banner) banner.classList.remove("show");
-    });
+
+  deferredInstallPrompt.prompt();
+
+  try {
+    const choice = await deferredInstallPrompt.userChoice;
+
+    // Tutup banner setelah pengguna memilih
+    if (banner) banner.classList.remove("show");
+
+    deferredInstallPrompt = null;
+
+    console.log("Install result:", choice.outcome);
+  } catch (err) {
+    console.error(err);
   }
 }
+
+// Tombol Tutup
 function dismissInstallBanner() {
   const banner = document.getElementById("installBanner");
-  if (banner) banner.classList.remove("show");
-  localStorage.setItem("dompetku_install_dismissed", "1");
+
+  if (banner) {
+    banner.classList.remove("show");
+  }
 }
 
 // Register service worker
