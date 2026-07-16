@@ -2,7 +2,7 @@
 // SERVICE WORKER — Offline cache untuk DompetKu (PWA)
 // ====================================================
 
-const CACHE_NAME = "dompetku-cache-v4";
+const CACHE_NAME = "dompetku-" + Date.now();
 
 // File inti (app shell) yang harus tersedia secara offline.
 // Sengaja tidak meng-cache request ke Firebase agar data tetap real-time.
