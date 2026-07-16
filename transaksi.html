@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<title>Transaksi — DompetKu</title>
+<meta name="description" content="Tambah dan lihat riwayat transaksi uang saku kamu." />
+
+<link rel="manifest" href="manifest.json" />
+<meta name="theme-color" content="#22c55e" />
+<link rel="apple-touch-icon" href="assets/icon/apple-touch-icon.png" />
+<link rel="icon" type="image/png" href="assets/icon/favicon-32.png" />
+
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+
+<link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+
+<div class="app-shell">
+
+  <header class="topbar">
+    <div class="greeting">
+      <h1>Transaksi</h1>
+      <div class="date" id="todayDate">Riwayat lengkap uang sakumu</div>
+    </div>
+    <a href="profile.html" class="avatar-btn"><span class="avatar-initial">?</span></a>
+  </header>
+
+  <section class="section" style="padding-top:0;">
+    <div class="search-bar">
+      <i class="fa-solid fa-magnifying-glass"></i>
+      <input type="text" id="searchInput" placeholder="Cari kategori, keterangan, atau nominal..." />
+    </div>
+
+    <div style="display:flex;align-items:center;gap:10px;margin-top:var(--space-4);">
+      <div class="filter-scroll" id="filterChips" style="margin:0;flex:1;">
+        <button class="filter-chip active" data-range="semua">Semua</button>
+        <button class="filter-chip" data-range="hari-ini">Hari Ini</button>
+        <button class="filter-chip" data-range="kemarin">Kemarin</button>
+        <button class="filter-chip" data-range="7-hari">7 Hari Terakhir</button>
+        <button class="filter-chip" data-range="minggu-ini">Minggu Ini</button>
+        <button class="filter-chip" data-range="bulan-ini">Bulan Ini</button>
+        <button class="filter-chip" data-range="bulan-lalu">Bulan Lalu</button>
+      </div>
+      <button class="filter-toggle-btn" id="filterToggleBtn"><i class="fa-solid fa-sliders"></i></button>
+    </div>
+
+    <!-- Panel filter lanjutan: kategori & jenis -->
+    <div class="filter-panel" id="filterPanel">
+      <div class="field">
+        <label for="filterKategori">Kategori</label>
+        <select id="filterKategori">
+          <option value="">Semua Kategori</option>
+        </select>
+      </div>
+      <div class="field" style="margin-bottom:0;">
+        <label for="filterJenis">Jenis</label>
+        <select id="filterJenis">
+          <option value="">Semua Jenis</option>
+          <option value="pemasukan">Pemasukan</option>
+          <option value="pengeluaran">Pengeluaran</option>
+        </select>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div id="txListContainer">
+      <div class="skeleton skeleton-tx"></div>
+      <div class="skeleton skeleton-tx"></div>
+      <div class="skeleton skeleton-tx"></div>
+      <div class="skeleton skeleton-tx"></div>
+    </div>
+  </section>
+
+  <!-- FAB Tambah Transaksi -->
+  <button class="fab" id="fabAdd"><i class="fa-solid fa-plus"></i></button>
+
+  <!-- Bottom Navigation -->
+  <nav class="bottom-nav">
+    <a href="dashboard.html" class="nav-item"><i class="fa-solid fa-house"></i>Beranda</a>
+    <a href="transaksi.html" class="nav-item"><i class="fa-solid fa-money-bill-transfer"></i>Transaksi</a>
+    <a href="statistik.html" class="nav-item"><i class="fa-solid fa-chart-pie"></i>Statistik</a>
+    <a href="profile.html" class="nav-item"><i class="fa-solid fa-user"></i>Profil</a>
+  </nav>
+</div>
+
+<!-- Overlay -->
+<div class="overlay" id="overlay"></div>
+
+<!-- Bottom Sheet: Tambah / Edit Transaksi -->
+<div class="sheet" id="txSheet">
+  <div class="sheet-handle"></div>
+  <div class="sheet-header">
+    <h3 id="sheetTitle">Tambah Transaksi</h3>
+    <button class="close-btn" id="closeSheetBtn"><i class="fa-solid fa-xmark"></i></button>
+  </div>
+
+  <form id="txForm">
+    <input type="hidden" id="txId" />
+
+    <div class="field">
+      <label>Jenis</label>
+      <div class="segmented" id="jenisSegmented">
+        <button type="button" class="active income" data-type="pemasukan">Pemasukan</button>
+        <button type="button" class="expense" data-type="pengeluaran">Pengeluaran</button>
+      </div>
+    </div>
+
+    <div class="field">
+      <label for="txNominal">Nominal</label>
+      <div class="input-wrap">
+        <i class="fa-solid fa-money-bill-wave field-icon"></i>
+        <input class="has-icon" type="text" inputmode="numeric" id="txNominal" placeholder="0" required />
+      </div>
+    </div>
+
+    <div class="field">
+      <label>Kategori</label>
+      <div class="cat-picker" id="catPicker"></div>
+      <input type="hidden" id="txCategory" required />
+    </div>
+
+    <div class="field">
+      <div class="field-row" style="display:flex;gap:12px;">
+        <div style="flex:1;">
+          <label for="txDate">Tanggal</label>
+          <input type="date" id="txDate" required />
+        </div>
+        <div style="flex:1;">
+          <label for="txTime">Jam</label>
+          <input type="time" id="txTime" required />
+        </div>
+      </div>
+    </div>
+
+    <div class="field" style="margin-bottom:var(--space-6);">
+      <label for="txDesc">Keterangan</label>
+      <input type="text" id="txDesc" placeholder="Contoh: Beli Es Teh" />
+    </div>
+
+    <button type="submit" class="btn btn-primary btn-block" id="txSubmitBtn">Simpan</button>
+  </form>
+</div>
+
+<!-- Modal konfirmasi hapus -->
+<div class="modal-center" id="deleteModal">
+  <i class="fa-solid fa-trash warn-icon"></i>
+  <h3>Hapus Transaksi?</h3>
+  <p>Transaksi yang dihapus tidak dapat dikembalikan. Yakin ingin melanjutkan?</p>
+  <div class="modal-actions">
+    <button class="btn btn-outline btn-block" id="cancelDeleteBtn">Batal</button>
+    <button class="btn btn-danger btn-block" id="confirmDeleteBtn">Hapus</button>
+  </div>
+</div>
+
+<!-- Firebase SDK -->
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+<script src="js/firebase.js"></script>
+<script src="js/auth.js"></script>
+<script src="js/app.js"></script>
+<script src="js/transaksi.js"></script>
+</body>
+</html>

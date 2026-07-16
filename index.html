@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<title>DompetKu — Catat Uang Sakumu</title>
+<meta name="description" content="DompetKu, aplikasi pencatat uang saku pribadi yang simpel, cepat, dan modern." />
+
+<!-- Open Graph -->
+<meta property="og:title" content="DompetKu — Catat Uang Sakumu" />
+<meta property="og:description" content="Catat pemasukan dan pengeluaran uang saku harianmu dengan mudah." />
+<meta property="og:type" content="website" />
+<meta property="og:image" content="assets/icon/icon-512.png" />
+
+<!-- PWA -->
+<link rel="manifest" href="manifest.json" />
+<meta name="theme-color" content="#22c55e" />
+<link rel="apple-touch-icon" href="assets/icon/apple-touch-icon.png" />
+<link rel="icon" type="image/png" href="assets/icon/favicon-32.png" />
+
+<!-- Fonts & Icons -->
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+
+<link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+
+<div class="splash">
+  <div class="logo-mark"><i class="fa-solid fa-wallet"></i></div>
+  <div class="brand">DompetKu</div>
+  <span class="spinner dark"></span>
+</div>
+
+<!-- Firebase SDK -->
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+<script src="js/firebase.js"></script>
+<script>
+  // Cek status login lalu arahkan ke halaman yang sesuai
+  auth.onAuthStateChanged((user) => {
+    window.location.replace(user ? "dashboard.html" : "login.html");
+  });
+</script>
+</body>
+</html>

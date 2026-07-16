@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<title>Statistik — DompetKu</title>
+<meta name="description" content="Lihat statistik pemasukan dan pengeluaran uang saku kamu." />
+
+<link rel="manifest" href="manifest.json" />
+<meta name="theme-color" content="#22c55e" />
+<link rel="apple-touch-icon" href="assets/icon/apple-touch-icon.png" />
+<link rel="icon" type="image/png" href="assets/icon/favicon-32.png" />
+
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+
+<link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+
+<div class="app-shell">
+
+  <header class="topbar">
+    <div class="greeting">
+      <h1>Statistik</h1>
+      <div class="date">Pantau kebiasaan keuanganmu</div>
+    </div>
+    <a href="profile.html" class="avatar-btn"><span class="avatar-initial">?</span></a>
+  </header>
+
+  <section class="section" style="padding-top:0;">
+    <div class="filter-scroll" id="statRangeChips" style="margin-top:0;">
+      <button class="filter-chip active" data-range="bulan-ini">Bulan Ini</button>
+      <button class="filter-chip" data-range="bulan-lalu">Bulan Lalu</button>
+      <button class="filter-chip" data-range="7-hari">7 Hari Terakhir</button>
+      <button class="filter-chip" data-range="semua">Semua</button>
+    </div>
+  </section>
+
+  <div class="chart-card">
+    <h3><i class="fa-solid fa-chart-pie"></i>&nbsp; Kategori Pengeluaran</h3>
+    <div class="chart-wrap"><canvas id="pieChart"></canvas></div>
+    <div class="legend-list" id="pieLegend"></div>
+  </div>
+
+  <div class="chart-card">
+    <h3><i class="fa-solid fa-chart-column"></i>&nbsp; Pengeluaran per Minggu</h3>
+    <div class="chart-wrap"><canvas id="barChart"></canvas></div>
+  </div>
+
+  <div class="chart-card">
+    <h3><i class="fa-solid fa-chart-line"></i>&nbsp; Saldo Harian</h3>
+    <div class="chart-wrap"><canvas id="lineChart"></canvas></div>
+  </div>
+
+  <!-- Bottom Navigation -->
+  <nav class="bottom-nav">
+    <a href="dashboard.html" class="nav-item"><i class="fa-solid fa-house"></i>Beranda</a>
+    <a href="transaksi.html" class="nav-item"><i class="fa-solid fa-money-bill-transfer"></i>Transaksi</a>
+    <a href="statistik.html" class="nav-item"><i class="fa-solid fa-chart-pie"></i>Statistik</a>
+    <a href="profile.html" class="nav-item"><i class="fa-solid fa-user"></i>Profil</a>
+  </nav>
+</div>
+
+<!-- Firebase SDK -->
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+<script src="js/firebase.js"></script>
+<script src="js/auth.js"></script>
+<script src="js/app.js"></script>
+
+<!-- Chart.js -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<script src="js/statistik.js"></script>
+</body>
+</html>

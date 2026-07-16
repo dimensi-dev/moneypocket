@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<title>Masuk — DompetKu</title>
+<meta name="description" content="Masuk ke akun DompetKu untuk mulai mencatat uang sakumu." />
+<meta property="og:title" content="Masuk — DompetKu" />
+<meta property="og:type" content="website" />
+
+<link rel="manifest" href="manifest.json" />
+<meta name="theme-color" content="#22c55e" />
+<link rel="apple-touch-icon" href="assets/icon/apple-touch-icon.png" />
+<link rel="icon" type="image/png" href="assets/icon/favicon-32.png" />
+
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+
+<link rel="stylesheet" href="css/style.css" />
+<link rel="stylesheet" href="css/login.css" />
+</head>
+<body>
+
+<div class="auth-shell">
+
+  <div class="auth-hero">
+    <div class="logo-mark"><i class="fa-solid fa-wallet"></i></div>
+    <h1>Selamat Datang</h1>
+    <p>Masuk ke DompetKu untuk mulai mencatat uang sakumu setiap hari.</p>
+  </div>
+
+  <form class="auth-form" id="loginForm" novalidate>
+    <div class="auth-alert" id="loginAlert"></div>
+
+    <div class="field">
+      <label for="loginEmail">Email</label>
+      <div class="input-wrap">
+        <i class="fa-regular fa-envelope field-icon"></i>
+        <input class="has-icon" type="email" id="loginEmail" placeholder="nama@email.com" required autocomplete="email" />
+      </div>
+    </div>
+
+    <div class="field">
+      <label for="loginPassword">Password</label>
+      <div class="input-wrap">
+        <i class="fa-solid fa-lock field-icon"></i>
+        <input class="has-icon" type="password" id="loginPassword" placeholder="Masukkan password" required autocomplete="current-password" />
+        <i class="fa-regular fa-eye toggle-visibility" data-target="loginPassword"></i>
+      </div>
+    </div>
+
+    <a href="forgot-password.html" class="forgot-link">Lupa Password?</a>
+
+    <button type="submit" class="btn btn-primary btn-block" id="loginBtn">Masuk</button>
+
+    <p class="auth-switch">Belum punya akun? <a href="register.html">Daftar sekarang</a></p>
+  </form>
+</div>
+
+<!-- Firebase SDK -->
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+<script src="js/firebase.js"></script>
+<script src="js/auth.js"></script>
+
+<!-- Ripple button effect -->
+<script>
+document.querySelectorAll(".btn").forEach((btn) => {
+  btn.addEventListener("click", function (e) {
+    const rect = this.getBoundingClientRect();
+    const ripple = document.createElement("span");
+    const size = Math.max(rect.width, rect.height);
+    ripple.className = "ripple";
+    ripple.style.width = ripple.style.height = size + "px";
+    ripple.style.left = e.clientX - rect.left - size / 2 + "px";
+    ripple.style.top = e.clientY - rect.top - size / 2 + "px";
+    this.appendChild(ripple);
+    setTimeout(() => ripple.remove(), 600);
+  });
+});
+</script>
+</body>
+</html>

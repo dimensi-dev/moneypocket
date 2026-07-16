@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<title>Beranda — DompetKu</title>
+<meta name="description" content="Ringkasan saldo, pemasukan, dan pengeluaran uang saku kamu." />
+
+<link rel="manifest" href="manifest.json" />
+<meta name="theme-color" content="#22c55e" />
+<link rel="apple-touch-icon" href="assets/icon/apple-touch-icon.png" />
+<link rel="icon" type="image/png" href="assets/icon/favicon-32.png" />
+
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+
+<link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+
+<div class="app-shell">
+
+  <!-- Header -->
+  <header class="topbar">
+    <div class="greeting">
+      <h1>Halo, <span id="greetName">Sobat Hemat</span> 👋</h1>
+      <div class="date" id="todayDate">Memuat tanggal...</div>
+    </div>
+    <a href="profile.html" class="avatar-btn"><span class="avatar-initial">?</span></a>
+  </header>
+
+  <!-- Card ringkasan -->
+  <section class="summary-grid" id="summaryGrid">
+    <div class="summary-card balance">
+      <div class="label"><i class="fa-solid fa-wallet"></i> Saldo Saat Ini</div>
+      <div class="value" id="valSaldo">Rp 0</div>
+    </div>
+    <div class="summary-card income">
+      <div class="label"><i class="fa-solid fa-arrow-down"></i> Pemasukan Bulan Ini</div>
+      <div class="value" id="valPemasukan">Rp 0</div>
+    </div>
+    <div class="summary-card expense">
+      <div class="label"><i class="fa-solid fa-arrow-up"></i> Pengeluaran Bulan Ini</div>
+      <div class="value" id="valPengeluaran">Rp 0</div>
+    </div>
+    <div class="summary-card">
+      <div class="label"><i class="fa-solid fa-piggy-bank"></i> Sisa Uang</div>
+      <div class="value" id="valSisa">Rp 0</div>
+    </div>
+  </section>
+
+  <!-- Kategori cepat -->
+  <section class="section">
+    <div class="section-header">
+      <h2>Kategori</h2>
+    </div>
+    <div class="category-scroll" id="categoryScroll"></div>
+  </section>
+
+  <!-- Transaksi terakhir -->
+  <section class="section">
+    <div class="section-header">
+      <h2>Transaksi Terakhir</h2>
+      <a href="transaksi.html" class="link">Lihat Semua</a>
+    </div>
+    <div class="tx-list" id="recentTxList">
+      <div class="skeleton skeleton-tx"></div>
+      <div class="skeleton skeleton-tx"></div>
+      <div class="skeleton skeleton-tx"></div>
+    </div>
+  </section>
+
+  <!-- FAB -->
+  <a href="transaksi.html?add=1" class="fab"><i class="fa-solid fa-plus"></i></a>
+
+  <!-- Install banner -->
+  <div class="install-banner" id="installBanner">
+    <i class="fa-solid fa-mobile-screen-button wallet-i"></i>
+    <div class="txt"><strong>Pasang DompetKu</strong>Akses lebih cepat langsung dari layar utama.</div>
+    <button class="btn btn-primary btn-sm" onclick="installApp()">Pasang</button>
+    <button onclick="dismissInstallBanner()" style="color:var(--color-text-faint);font-size:0.8rem;"><i class="fa-solid fa-xmark"></i></button>
+  </div>
+
+  <!-- Bottom Navigation -->
+  <nav class="bottom-nav">
+    <a href="dashboard.html" class="nav-item"><i class="fa-solid fa-house"></i>Beranda</a>
+    <a href="transaksi.html" class="nav-item"><i class="fa-solid fa-money-bill-transfer"></i>Transaksi</a>
+    <a href="statistik.html" class="nav-item"><i class="fa-solid fa-chart-pie"></i>Statistik</a>
+    <a href="profile.html" class="nav-item"><i class="fa-solid fa-user"></i>Profil</a>
+  </nav>
+</div>
+
+<!-- Firebase SDK -->
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+<script src="js/firebase.js"></script>
+<script src="js/auth.js"></script>
+<script src="js/app.js"></script>
+<script>
+  // Render daftar kategori cepat di dashboard
+  (function renderCategoryScroll() {
+    const wrap = document.getElementById("categoryScroll");
+    wrap.innerHTML = getAllCategories()
+      .map(
+        (c) => `
+      <a href="transaksi.html?add=1&category=${encodeURIComponent(c.name)}" class="category-chip">
+        <div class="icon-circle">${c.icon}</div>
+        <span>${c.name}</span>
+      </a>`
+      )
+      .join("");
+  })();
+</script>
+</body>
+</html>

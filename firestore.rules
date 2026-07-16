@@ -1,0 +1,28 @@
+rules_version = '2';
+
+// ====================================================
+// FIRESTORE SECURITY RULES — DompetKu
+// Setiap pengguna hanya bisa membaca & menulis datanya sendiri,
+// diverifikasi berdasarkan UID Firebase Authentication.
+// ====================================================
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // Koleksi users: setiap dokumen id-nya adalah UID pengguna
+    match /users/{userId} {
+      allow read, update: if request.auth != null && request.auth.uid == userId;
+      allow create: if request.auth != null && request.auth.uid == userId;
+      allow delete: if false;
+    }
+
+    // Koleksi transactions: setiap dokumen wajib punya field "uid"
+    // yang cocok dengan uid pengguna yang sedang login.
+    match /transactions/{txId} {
+      allow read, update, delete: if request.auth != null
+                                   && resource.data.uid == request.auth.uid;
+      allow create: if request.auth != null
+                     && request.resource.data.uid == request.auth.uid;
+    }
+  }
+}
